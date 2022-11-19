@@ -8,4 +8,5 @@ from authentication import api_views as authentication_api_views
 urlpatterns = [
     path('users/', authentication_api_views.UsersViewSet.as_view()),
     path('auth/', include('authentication.urls')),
+    path('check-email-and-password/', authentication_api_views.check_email_username)
 ]

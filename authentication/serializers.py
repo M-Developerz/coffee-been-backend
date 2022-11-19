@@ -39,3 +39,8 @@ class CreateUserSerializer(serializers.Serializer):
         user.is_active = True
         user.save()
         return user
+
+
+class CheckEmailPasswordSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True, allow_blank=False, max_length=100)
+    email = serializers.CharField(required=True, allow_blank=False, max_length=100)

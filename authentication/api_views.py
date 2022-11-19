@@ -1,11 +1,36 @@
 from django.contrib.auth.models import User
+from django.http import HttpResponse, JsonResponse
+from rest_framework.parsers import JSONParser
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpRequest
 
 from authentication.exception import ValidationException
-from authentication.serializers import UserSerializer, CreateUserSerializer
+from authentication.serializers import UserSerializer, CreateUserSerializer, CheckEmailPasswordSerializer
+
+
+@csrf_exempt
+def check_email_username(request: HttpRequest):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        email = data["email"]
+        username = data["username"]
+
+        users_with_email = User.objects.all().filter(email=email)
+        users_with_username = User.objects.all().filter(username=username)
+
+        if users_with_username.count() != 0:
+            return JsonResponse({"message": "username already taken"}, status=400)
+
+        if users_with_email.count() != 0:
+            return JsonResponse({"message": "email already taken"}, status=400)
+
+        return JsonResponse({"message": "Email and Password Valid"}, status=200)
+
+    return JsonResponse({"error": "not found"}, status=404)
 
 
 class UsersViewSet(APIView):
