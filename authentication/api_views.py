@@ -36,7 +36,7 @@ def check_email_username(request: HttpRequest):
 
         return JsonResponse({
             "messages": ["Email and Password Valid"],
-            "isSuccess": False
+            "isSuccess": True
         }, status=200)
 
     return JsonResponse({
