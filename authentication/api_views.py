@@ -23,14 +23,25 @@ def check_email_username(request: HttpRequest):
         users_with_username = User.objects.all().filter(username=username)
 
         if users_with_username.count() != 0:
-            return JsonResponse({"message": ["username already taken"]}, status=400)
+            return JsonResponse({
+                "messages": ["username already taken"],
+                "isSuccess": False
+            }, status=400)
 
         if users_with_email.count() != 0:
-            return JsonResponse({"message": ["email already taken"]}, status=400)
+            return JsonResponse({
+                "messages": ["email already taken"],
+                "isSuccess": False
+            }, status=400)
 
-        return JsonResponse({"message": ["Email and Password Valid"]}, status=200)
+        return JsonResponse({
+            "messages": ["Email and Password Valid"],
+            "isSuccess": False
+        }, status=200)
 
-    return JsonResponse({"error": "not found"}, status=404)
+    return JsonResponse({
+        "messages": ["Unkown Error"],
+        "isSuccess": False}, status=404)
 
 
 class UsersViewSet(APIView):
