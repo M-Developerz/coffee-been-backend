@@ -45,7 +45,7 @@ def check_email_username(request: HttpRequest):
 
 
 class UsersViewSet(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     # serializer_class = UserSerializer
     # queryset = User.objects.all().order_by('-date_joined')
